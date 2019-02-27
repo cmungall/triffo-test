@@ -4685,10 +4685,6 @@
       "type" : "CLASS",
       "lbl" : "Deuterostomia"
     }, {
-      "id" : "http://purl.obolibrary.org/obo/TRIFFO_00000000",
-      "type" : "CLASS",
-      "lbl" : "root node"
-    }, {
       "id" : "http://purl.obolibrary.org/obo/ENVO_01000325",
       "meta" : {
         "definition" : {
@@ -7380,13 +7376,13 @@
       "pred" : "subPropertyOf",
       "obj" : "http://purl.obolibrary.org/obo/RO_0002304"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/ENVO_01000804",
-      "pred" : "http://purl.obolibrary.org/obo/RO_0002219",
-      "obj" : "http://purl.obolibrary.org/obo/ENVO_01000637"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCBITaxon_6072",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCBITaxon_33208"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/ENVO_01000804",
+      "pred" : "http://purl.obolibrary.org/obo/RO_0002219",
+      "obj" : "http://purl.obolibrary.org/obo/ENVO_01000637"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_00000016",
       "pred" : "is_a",
@@ -8728,13 +8724,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/ENVO_01001122"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/RO_0002087",
-      "pred" : "inverseOf",
-      "obj" : "http://purl.obolibrary.org/obo/RO_0002090"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_01000406",
       "pred" : "http://purl.obolibrary.org/obo/BFO_0000051",
       "obj" : "http://purl.obolibrary.org/obo/ENVO_00002005"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/RO_0002087",
+      "pred" : "inverseOf",
+      "obj" : "http://purl.obolibrary.org/obo/RO_0002090"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_01000303",
       "pred" : "http://purl.obolibrary.org/obo/RO_0002219",
@@ -9276,13 +9272,13 @@
       "pred" : "subPropertyOf",
       "obj" : "http://purl.obolibrary.org/obo/RO_0000056"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/ENVO_01000295",
-      "pred" : "http://purl.obolibrary.org/obo/BFO_0000050",
-      "obj" : "http://purl.obolibrary.org/obo/ENVO_00001999"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_09200012",
       "pred" : "http://purl.obolibrary.org/obo/RO_0000052",
       "obj" : "http://purl.obolibrary.org/obo/ENVO_00001998"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/ENVO_01000295",
+      "pred" : "http://purl.obolibrary.org/obo/BFO_0000050",
+      "obj" : "http://purl.obolibrary.org/obo/ENVO_00001999"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_01000256",
       "pred" : "http://purl.obolibrary.org/obo/RO_0002473",
@@ -9436,13 +9432,13 @@
       "pred" : "subPropertyOf",
       "obj" : "http://purl.obolibrary.org/obo/RO_0002431"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/BFO_0000050",
-      "pred" : "inverseOf",
-      "obj" : "http://purl.obolibrary.org/obo/BFO_0000051"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/PATO_0001476",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/PATO_0000140"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/BFO_0000050",
+      "pred" : "inverseOf",
+      "obj" : "http://purl.obolibrary.org/obo/BFO_0000051"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_01001002",
       "pred" : "http://purl.obolibrary.org/obo/RO_0002507",
@@ -9708,13 +9704,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/ENVO_01000804"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/RO_0002212",
-      "pred" : "inverseOf",
-      "obj" : "http://purl.obolibrary.org/obo/RO_0002335"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_01001069",
       "pred" : "http://purl.obolibrary.org/obo/RO_0000087",
       "obj" : "http://purl.obolibrary.org/obo/CHEBI_15022"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/RO_0002212",
+      "pred" : "inverseOf",
+      "obj" : "http://purl.obolibrary.org/obo/RO_0002335"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/ENVO_00001998",
       "pred" : "http://purl.obolibrary.org/obo/BFO_0000051",
@@ -9840,13 +9836,13 @@
       "pred" : "subPropertyOf",
       "obj" : "http://purl.obolibrary.org/obo/RO_0002295"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCBITaxon_9606",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCBITaxon_314146"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/CHEBI_33958",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/CHEBI_24866"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCBITaxon_9606",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCBITaxon_314146"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/CHEBI_33285",
       "pred" : "is_a",
@@ -9956,13 +9952,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/CHEBI_24431"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/PATO_0002124",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/PATO_0000141"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCBITaxon_10239",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/OBI_0100026"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/PATO_0002124",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/PATO_0000141"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCBITaxon_7742",
       "pred" : "is_a",
@@ -10016,15 +10012,12 @@
       "pred" : "http://purl.obolibrary.org/obo/RO_0000086",
       "obj" : "http://purl.obolibrary.org/obo/PATO_0001759"
     } ],
-    "id" : "http://purl.obolibrary.org/obo/triffo.owl",
+    "id" : "http://purl.obolibrary.org/obo/triffo/imports/envo_import.owl",
     "meta" : {
       "subsets" : [ ],
       "xrefs" : [ ],
-      "basicPropertyValues" : [ {
-        "pred" : "http://www.w3.org/2000/01/rdf-schema#comment",
-        "val" : "Triffid Behavior ontology"
-      } ],
-      "version" : "http://purl.obolibrary.org/obo/triffo/releases/2019-02-27/triffo.owl"
+      "basicPropertyValues" : [ ],
+      "version" : "http://purl.obolibrary.org/obo/triffo/releases/2019-02-27/imports/envo_import.owl"
     },
     "equivalentNodesSets" : [ ],
     "logicalDefinitionAxioms" : [ {

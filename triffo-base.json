@@ -14,7 +14,7 @@
         "pred" : "http://www.w3.org/2000/01/rdf-schema#comment",
         "val" : "Triffid Behavior ontology"
       } ],
-      "version" : "http://purl.obolibrary.org/obo/triffo/releases/2019-02-26/triffo-base.owl"
+      "version" : "http://purl.obolibrary.org/obo/triffo/releases/2019-02-27/triffo-base.owl"
     },
     "equivalentNodesSets" : [ ],
     "logicalDefinitionAxioms" : [ ],
