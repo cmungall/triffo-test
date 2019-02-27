@@ -1,0 +1,9 @@
+format-version: 1.2
+data-version: triffo/releases/2019-02-26/triffo-base.owl
+remark: Triffid Behavior ontology
+ontology: triffo/triffo-base
+
+[Term]
+id: TRIFFO:00000000
+name: root node
+
