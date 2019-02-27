@@ -1,34 +1,23 @@
 contact: null
 contributors: null
 creators: null
-dosdp_tools_options: --obo-prefixes=true
 edit_format: owl
 github_org: cmungall
 id: triffo
 import_group:
   directory: imports/
   disabled: false
-  ids: null
+  ids:
+  - envo
   products:
   - description: null
-    id: ro
-    mirror_from: null
-    rebuild_if_source_changes: true
-    robot_settings: null
-  - description: null
-    id: bfo
-    mirror_from: null
-    rebuild_if_source_changes: true
-    robot_settings: null
-  - description: null
-    id: pato
+    id: envo
     mirror_from: null
     rebuild_if_source_changes: true
     robot_settings: null
   rebuild_if_source_changes: true
 obo_format_options: ''
 pattern_group: null
-pattern_pipelines_group: null
 reasoner: ELK
 repo: triffo
 report_fail_on: null

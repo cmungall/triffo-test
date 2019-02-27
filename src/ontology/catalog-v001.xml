@@ -3,11 +3,7 @@
 
 
   
-  <uri id="User Entered Import Resolution" name="http://purl.obolibrary.org/obo/triffo/imports/ro_import.owl" uri="imports/ro_import.owl"/>
-  
-  <uri id="User Entered Import Resolution" name="http://purl.obolibrary.org/obo/triffo/imports/bfo_import.owl" uri="imports/bfo_import.owl"/>
-  
-  <uri id="User Entered Import Resolution" name="http://purl.obolibrary.org/obo/triffo/imports/pato_import.owl" uri="imports/pato_import.owl"/>
+  <uri id="User Entered Import Resolution" name="http://purl.obolibrary.org/obo/triffo/imports/envo_import.owl" uri="imports/envo_import.owl"/>
   
 
   <group id="Folder Repository, directory=, recursive=false, Auto-Update=false, version=2" prefer="public" xml:base=""/>

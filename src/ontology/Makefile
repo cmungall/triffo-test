@@ -47,7 +47,7 @@ all_main: $(MAIN_FILES)
 ## By default this is the cross-product of IMPORT_MODULES x FORMATS
 
 
-IMPORTS =  ro bfo pato
+IMPORTS =  envo
 
 IMPORT_ROOTS = $(patsubst %, imports/%_import, $(IMPORTS))
 IMPORT_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl $(n).obo $(n).json)
@@ -196,32 +196,12 @@ imports/%_import.obo: imports/%_import.owl
 #
 
 
-## ONTOLOGY: ro
-## Copy of ro is re-downloaded whenever source changes
-mirror/ro.trigger: $(SRC)
+## ONTOLOGY: envo
+## Copy of envo is re-downloaded whenever source changes
+mirror/envo.trigger: $(SRC)
 
-mirror/ro.owl: mirror/ro.trigger
-	$(ROBOT) convert -I $(URIBASE)/ro.owl -o $@
-
-.PRECIOUS: mirror/%.owl
-
-
-## ONTOLOGY: bfo
-## Copy of bfo is re-downloaded whenever source changes
-mirror/bfo.trigger: $(SRC)
-
-mirror/bfo.owl: mirror/bfo.trigger
-	$(ROBOT) convert -I $(URIBASE)/bfo.owl -o $@
-
-.PRECIOUS: mirror/%.owl
-
-
-## ONTOLOGY: pato
-## Copy of pato is re-downloaded whenever source changes
-mirror/pato.trigger: $(SRC)
-
-mirror/pato.owl: mirror/pato.trigger
-	$(ROBOT) convert -I $(URIBASE)/pato.owl -o $@
+mirror/envo.owl: mirror/envo.trigger
+	$(ROBOT) convert -I $(URIBASE)/envo.owl -o $@
 
 .PRECIOUS: mirror/%.owl
 

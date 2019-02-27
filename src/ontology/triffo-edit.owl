@@ -9,11 +9,7 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 Ontology(<http://purl.obolibrary.org/obo/triffo.owl>
 
-Import(<http://purl.obolibrary.org/obo/triffo/imports/ro_import.owl>)
-
-Import(<http://purl.obolibrary.org/obo/triffo/imports/bfo_import.owl>)
-
-Import(<http://purl.obolibrary.org/obo/triffo/imports/pato_import.owl>)
+Import(<http://purl.obolibrary.org/obo/triffo/imports/envo_import.owl>)
 
 
 

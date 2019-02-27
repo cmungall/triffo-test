@@ -30,9 +30,7 @@ products:
   - id: triffo/triffo-base.json
     name: "Triffid Behavior ontology additional release in OBOJSon format"
 dependencies:
-- id: ro
-- id: bfo
-- id: pato
+- id: envo
 
 tracker: https://github.com/cmungall/triffo/issues
 license:
