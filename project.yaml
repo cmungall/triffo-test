@@ -16,18 +16,15 @@ id: triffo
 import_group:
   directory: imports/
   disabled: false
-  ids:
-  - po
-  - ro
-  - pato
+  ids: null
   products:
   - description: null
-    id: po
+    id: ro
     mirror_from: null
     rebuild_if_source_changes: true
     robot_settings: null
   - description: null
-    id: ro
+    id: bfo
     mirror_from: null
     rebuild_if_source_changes: true
     robot_settings: null
