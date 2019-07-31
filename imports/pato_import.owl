@@ -9,7 +9,7 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#">
     <owl:Ontology rdf:about="http://purl.obolibrary.org/obo/triffo/imports/pato_import.owl">
-        <owl:versionIRI rdf:resource="http://purl.obolibrary.org/obo/triffo/releases/2019-02-26/imports/pato_import.owl"/>
+        <owl:versionIRI rdf:resource="http://purl.obolibrary.org/obo/triffo/releases/2019-07-31/imports/pato_import.owl"/>
     </owl:Ontology>
     
 

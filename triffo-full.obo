@@ -1,6 +1,6 @@
 format-version: 1.2
-data-version: releases/2019-07-31
-ontology: triffo
+data-version: triffo/releases/2019-07-31/triffo-full.owl
+ontology: triffo/triffo-full
 property_value: http://purl.org/dc/elements/1.1/description "None" xsd:string
 property_value: http://purl.org/dc/elements/1.1/title "Triffid Behavior ontology" xsd:string
 property_value: http://purl.org/dc/terms/license "Unspecified" xsd:string

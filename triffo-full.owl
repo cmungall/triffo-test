@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="http://purl.obolibrary.org/obo/triffo.owl#"
-     xml:base="http://purl.obolibrary.org/obo/triffo.owl"
+<rdf:RDF xmlns="http://purl.obolibrary.org/obo/triffo/triffo-full.owl#"
+     xml:base="http://purl.obolibrary.org/obo/triffo/triffo-full.owl"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:obo="http://purl.obolibrary.org/obo/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
@@ -14,8 +14,8 @@
      xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
      xmlns:terms="http://purl.org/dc/terms/"
      xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#">
-    <owl:Ontology rdf:about="http://purl.obolibrary.org/obo/triffo.owl">
-        <owl:versionIRI rdf:resource="http://purl.obolibrary.org/obo/triffo/releases/2019-07-31"/>
+    <owl:Ontology rdf:about="http://purl.obolibrary.org/obo/triffo/triffo-full.owl">
+        <owl:versionIRI rdf:resource="http://purl.obolibrary.org/obo/triffo/releases/2019-07-31/triffo-full.owl"/>
         <dc:description>None</dc:description>
         <dc:title>Triffid Behavior ontology</dc:title>
         <terms:license>Unspecified</terms:license>
