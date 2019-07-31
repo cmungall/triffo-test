@@ -14,7 +14,8 @@ ONT=                        triffo
 ONTBASE=                    $(URIBASE)/$(ONT)
 EDIT_FORMAT=                owl
 SRC =                       $(ONT)-edit.$(EDIT_FORMAT)
-ROBOT=                      robot
+CATALOG=                    catalog-v001.xml
+ROBOT=                      robot --catalog $(CATALOG)
 RELEASEDIR=                 ../..
 PATTERNDIR=                 ../patterns
 REPORTDIR=                 reports
@@ -24,21 +25,29 @@ OBO_FORMAT_OPTIONS =
 SPARQL_VALIDATION_CHECKS =  equivalent-classes trailing-whitespace owldef-self-reference xref-syntax nolabels
 SPARQL_EXPORTS =            basic-report class-count-by-prefix edges xrefs obsoletes synonyms
 
-TODAY   := $(shell date +%Y-%m-%d)
+TODAY   ?= $(shell date +%Y-%m-%d)
+
+
+FORMATS = $(sort  owl obo owl)
+FORMATS_INCL_TSV = $(sort $(FORMAT) tsv)
+RELEASE_ARTEFACTS = $(sort  full base base full)
 
 # ----------------------------------------
 # Top-level targets
 # ----------------------------------------
 
+.PHONY: .FORCE
 all: all_imports all_main all_subsets sparql_test all_reports all_assets
-test: sparql_test all_reports $(ONT).owl
+test: sparql_test all_reports
+	$(ROBOT) reason --input $(SRC) --reasoner ELK  --equivalent-classes-allowed all --output test.owl && rm test.owl && echo "Success"
 
 ## -- main targets --
 ##
 ## By default this is the cross-product of {ont, ont-base} x FORMATS
 
-MAIN_PRODUCTS = $(ONT) $(ONT)-base
-MAIN_FILES = $(foreach n,$(MAIN_PRODUCTS), $(n).owl $(n).obo $(n).json)
+MAIN_PRODUCTS = $(sort $(foreach r,$(RELEASE_ARTEFACTS), $(ONT)-$(r)) $(ONT))
+MAIN_GZIPPED = 
+MAIN_FILES = $(foreach n,$(MAIN_PRODUCTS), $(foreach f,$(FORMATS), $(n).$(f))) $(MAIN_GZIPPED)
 
 all_main: $(MAIN_FILES)
 
@@ -47,14 +56,16 @@ all_main: $(MAIN_FILES)
 ## By default this is the cross-product of IMPORT_MODULES x FORMATS
 
 
-IMPORTS =  envo
+IMPORTS =  po ro pato
 
 IMPORT_ROOTS = $(patsubst %, imports/%_import, $(IMPORTS))
-IMPORT_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl $(n).obo $(n).json)
+IMPORT_FILES = $(foreach n,$(IMPORT_ROOTS), $(foreach f,$(FORMATS), $(n).$(f)))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
 
 all_imports: $(IMPORT_FILES)
+
 all_imports_owl: $(foreach n,$(IMPORT_ROOTS), $(n).owl)
+
 all_imports_obo: $(foreach n,$(IMPORT_ROOTS), $(n).obo)
 
 
@@ -67,7 +78,7 @@ all_imports_obo: $(foreach n,$(IMPORT_ROOTS), $(n).obo)
 SUBSETS = 
 
 SUBSET_ROOTS = $(patsubst %, subsets/%, $(SUBSETS))
-SUBSET_FILES = $(foreach n,$(SUBSET_ROOTS), $(n).tsv $(n).owl $(n).obo $(n).json)
+SUBSET_FILES = $(foreach n,$(SUBSET_ROOTS), $(foreach f,$(FORMATS_INCL_TSV), $(n).$(f)))
 
 all_subsets: $(SUBSET_FILES)
 
@@ -85,7 +96,7 @@ all_patterns: $(PATTERN_FILES)
 ## -- dosdp pattern targets --
 ##
 
-OBO_REPORT = $(ONT)-obo-report
+OBO_REPORT = $(SRC)-obo-report
 REPORTS = $(OBO_REPORT)
 REPORT_FILES = $(patsubst %, $(REPORTDIR)/%.tsv, $(REPORTS))
 
@@ -110,6 +121,10 @@ show_assets:
 # Release Management
 # ----------------------------------------
 
+KEEPRELATIONS=keeprelations.txt
+ONTOLOGYTERMS=ontologyterms.txt
+SIMPLESEED=simple_seed.txt
+
 # This should be executed by the release manager whenever time comes to make a release.
 # It will ensure that all assets/files are fresh, and will copy to release folder
 prepare_release: $(ASSETS) $(PATTERN_RELEASE_FILES)
@@ -120,41 +135,56 @@ prepare_initial_release: prepare_release
 	cd $(RELEASEDIR) && git add $(ASSETS)
 
 # ----------------------------------------
-# Generic Conversion
+# Export formats
 # ----------------------------------------
-# we assume OWL as source
-%.obo: %.owl
-	$(ROBOT) convert --check false -i $< -f obo $(OBO_FORMAT_OPTIONS) -o $*.tmp.obo && grep -v ^owl-axioms $*.tmp.obo > $@
-%.ttl: %.owl
-	$(ROBOT) convert -i $< -f ttl -o $*.tmp.ttl && mv $*.tmp.ttl $@
-%.json: %.owl
-	$(ROBOT) convert -i $< -f json -o $*.tmp.json && mv $*.tmp.json $@
 
-%.gz: %
-	gzip -c $< > $@.tmp && mv $@.tmp $@
 
+$(ONT)-full.obo: $(ONT)-full.owl
+	$(ROBOT) convert --input $< --check false -f obo $(OBO_FORMAT_OPTIONS) -o $@.tmp.obo && grep -v ^owl-axioms $@.tmp.obo > $@ && rm $@.tmp.obo
+$(ONT)-base.obo: $(ONT)-base.owl
+	$(ROBOT) convert --input $< --check false -f obo $(OBO_FORMAT_OPTIONS) -o $@.tmp.obo && grep -v ^owl-axioms $@.tmp.obo > $@ && rm $@.tmp.obo
+# Main release artefacts
+$(ONT).owl: $(ONT)-full.owl
+	$(ROBOT) annotate --input $< --ontology-iri $(URIBASE)/$@ --version-iri $(ONTBASE)/releases/$(TODAY) \
+		convert -o $@.tmp.owl && mv $@.tmp.owl $@
+
+$(ONT).obo: $(ONT).owl
+	$(ROBOT) convert --input $< --check false -f obo $(OBO_FORMAT_OPTIONS) -o $@.tmp.obo && grep -v ^owl-axioms $@.tmp.obo > $@ && rm $@.tmp.obo
 # ----------------------------------------
 # Initiating Step: Reason over source
 # ----------------------------------------
 
-ANNOTATE_VERSION_IRI = annotate -V $(ONTBASE)/releases/`date +%Y-%m-%d`/$@.owl
+ANNOTATE_VERSION_IRI = annotate -V $(ONTBASE)/releases/$(TODAY)/$@.owl
 
 # by default we use ELK to perform a reason-relax-reduce chain
 # after that we annotate the ontology with the release versionInfo
 
-$(ONT).owl: $(SRC) $(OTHER_SRC)
-	$(ROBOT) reason --input $< --reasoner ELK \
-		 relax \
-		 reduce -r ELK \
-		 remove --select imports \
-	         merge  $(patsubst %, -i %, $(IMPORT_OWL_FILES))  \
-	         annotate --version-iri $(ONTBASE)/releases/$(TODAY)/$@ --output $@
+OTHER_SRC =  
 
-# requires robot 1.2. For some reason, the pipe between remove | merge does not work. 
-$(ONT)-base.owl: $(SRC) 
-	$(ROBOT) remove --trim false --input $< --select imports --output $@.tmp.owl && mv $@.tmp.owl $@ &&\
-$(ROBOT) annotate -i $@ --ontology-iri $(ONTBASE)/$@ --version-iri $(ONTBASE)/releases/$(TODAY)/$@ --output $@.tmp.owl && mv $@.tmp.owl $@ &&\
-	echo "$(ONT)-base.owl successfully created."
+
+$(ONTOLOGYTERMS): $(SRC) $(OTHER_SRC)
+	$(ROBOT) query --use-graphs true -f csv -i $< --query ../sparql/triffo_terms.sparql $@
+
+
+
+
+
+
+
+
+
+# base: OTHER sources of interest, such as definitions owl
+$(ONT)-base.owl: $(SRC) $(OTHER_SRC)
+	$(ROBOT) remove --input $< --select imports --trim false \
+		annotate --ontology-iri $(ONTBASE)/$@ --version-iri $(ONTBASE)/releases/$(TODAY)/$@ --output $@.tmp.owl && mv $@.tmp.owl $@
+
+# Full: The full artefacts with imports merged, reasoned
+$(ONT)-full.owl: $(SRC) $(OTHER_SRC)
+	$(ROBOT) merge --input $< \
+		reason --reasoner ELK --equivalent-classes-allowed all \
+		relax \
+		reduce -r ELK \
+		annotate --ontology-iri $(ONTBASE)/$@ --version-iri $(ONTBASE)/releases/$(TODAY)/$@ --output $@.tmp.owl && mv $@.tmp.owl $@
 
 # ----------------------------------------
 # Import modules
@@ -166,42 +196,64 @@ $(ROBOT) annotate -i $@ --ontology-iri $(ONTBASE)/$@ --version-iri $(ONTBASE)/re
 
 
 seed.txt: $(SRC)
-	$(ROBOT) query --use-graphs true -f csv -i $< --query ../sparql/terms.sparql $@
+	@if [ $(IMP) = true ]; then $(ROBOT) query --use-graphs true -f csv -i $< --query ../sparql/terms.sparql $@; fi
 
 
 # Generate terms.txt for each import.  (Assume OBO-style Possibly hacky step?)
 # Should be able to drop this if robot can just take a big messy list of terms as input.
 
 imports/%_terms_combined.txt: seed.txt imports/%_terms.txt
-	cat $^ | grep -v ^# | sort | uniq >  $@
+	@if [ $(IMP) = true ]; then cat $^ | grep -v ^# | sort | uniq >  $@; fi
 
 # -- Generate Import Modules --
 #
 # This pattern uses ROBOT to generate an import module
 imports/%_import.owl: mirror/%.owl imports/%_terms_combined.txt
-	$(ROBOT) extract -i $< -T imports/$*_terms_combined.txt --method BOT \
-		 annotate --ontology-iri $(ONTBASE)/$@ --version-iri $(ONTBASE)/releases/$(TODAY)/$@ --output $@
+	@if [ $(IMP) = true ]; then $(ROBOT) extract -i $< -T imports/$*_terms_combined.txt --force true --method BOT \
+		annotate --ontology-iri $(ONTBASE)/$@ --version-iri $(ONTBASE)/releases/$(TODAY)/$@ --output $@.tmp.owl && mv $@.tmp.owl $@; fi
 .PRECIOUS: imports/%_import.owl
 
 # convert imports to obo.
 # this can be useful for spot-checks and diffs.
 # we set strict mode to false by default. For discussion see https://github.com/owlcs/owlapi/issues/752
 imports/%_import.obo: imports/%_import.owl
-	$(ROBOT) convert --check false -i $< -f obo -o $@.tmp && mv $@.tmp $@
-
-
+	@if [ $(IMP) = true ]; then $(ROBOT) convert --check false -i $< -f obo -o $@.tmp.obo && mv $@.tmp.obo $@; fi
 # ----------------------------------------
 # Mirroring upstream ontologies
 # ----------------------------------------
 #
 
+IMP=true # Global parameter to bypass import generation
+MIR=true # Global parameter to bypass mirror generation
 
-## ONTOLOGY: envo
-## Copy of envo is re-downloaded whenever source changes
-mirror/envo.trigger: $(SRC)
 
-mirror/envo.owl: mirror/envo.trigger
-	$(ROBOT) convert -I $(URIBASE)/envo.owl -o $@
+
+## ONTOLOGY: po
+## Copy of po is re-downloaded whenever source changes
+mirror/po.trigger: $(SRC)
+
+mirror/po.owl: mirror/po.trigger
+	@if [ $(MIR) = true ] && [ $(IMP) = true ]; then $(ROBOT) convert -I $(URIBASE)/po.owl -o $@.tmp.owl && mv $@.tmp.owl $@; fi
+
+.PRECIOUS: mirror/%.owl
+
+
+## ONTOLOGY: ro
+## Copy of ro is re-downloaded whenever source changes
+mirror/ro.trigger: $(SRC)
+
+mirror/ro.owl: mirror/ro.trigger
+	@if [ $(MIR) = true ] && [ $(IMP) = true ]; then $(ROBOT) convert -I $(URIBASE)/ro.owl -o $@.tmp.owl && mv $@.tmp.owl $@; fi
+
+.PRECIOUS: mirror/%.owl
+
+
+## ONTOLOGY: pato
+## Copy of pato is re-downloaded whenever source changes
+mirror/pato.trigger: $(SRC)
+
+mirror/pato.owl: mirror/pato.trigger
+	@if [ $(MIR) = true ] && [ $(IMP) = true ]; then $(ROBOT) convert -I $(URIBASE)/pato.owl -o $@.tmp.owl && mv $@.tmp.owl $@; fi
 
 .PRECIOUS: mirror/%.owl
 
@@ -239,7 +291,7 @@ sparql_test: $(SRC)
 # ----------------------------------------
 # ROBOT report
 # ----------------------------------------
-reports/%-obo-report.tsv: %.owl
+reports/%-obo-report.tsv: %
 	$(ROBOT) report -i $< --fail-on $(REPORT_FAIL_ON) -o $@
 
 # ----------------------------------------
@@ -262,8 +314,3 @@ build-docker:
 
 
 include triffo.Makefile
-
-
-
-
-

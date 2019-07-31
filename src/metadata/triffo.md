@@ -30,12 +30,15 @@ products:
   - id: triffo/triffo-base.json
     name: "Triffid Behavior ontology additional release in OBOJSon format"
 dependencies:
-- id: envo
+- id: po
+- id: ro
+- id: pato
 
 tracker: https://github.com/cmungall/triffo/issues
 license:
   url: http://creativecommons.org/licenses/by/3.0/
   label: CC-BY
+activity_status: active
 ---
 
 Enter a detailed description of your ontology here. You can use arbitrary markdown and HTML.
