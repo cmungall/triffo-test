@@ -1,5 +1,5 @@
 format-version: 1.2
-data-version: triffo/releases/2019-02-26/imports/bfo_import.owl
+data-version: triffo/releases/2019-07-31/imports/bfo_import.owl
 ontology: triffo/imports/bfo_import
 
 [Term]
